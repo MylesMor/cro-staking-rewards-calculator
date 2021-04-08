@@ -16,14 +16,14 @@ You can access the API used for this website using this format:
   * `GBP | USD | EUR | CAD | AUD | NZD | JPY | RUB | CNY | HKD | IDR | ILS | DKK | INR | CHF | MXN | CZK | SGD | THB | HRK | MYR | NOK | BGN | PHP | PLN | ZAR | ISK | BRL | RON | TRY | KRW | HUF | SEK)`
 
 ### Response
-You will recieve a JSON response, examples of which can be seen in the [Examples](#examples) section.
+You will recieve a JSON response, examples of which can be seen in the [Examples](#api-examples) section.
 
 ### Rate limits
 You are limited to 2 requests per second, due to a limited amount of web workers and priority given to the website.
 
-### Examples
+## API Examples
 
-#### Valid example
+### Valid example
 `https://cro.pythonanywhere.com/rewards?address=VALID_ADDRESS&currency=GBP`
 
 ```
@@ -39,7 +39,7 @@ You are limited to 2 requests per second, due to a limited amount of web workers
 }
 ```
 
-#### Address not found
+### Address not found
 `https://cro.pythonanywhere.com/rewards?address=cro1359f79e32gfd7rv4mtv67dkvtc9kq9uzqlrsqh&currency=GBP`
 
 ```
@@ -53,7 +53,7 @@ You are limited to 2 requests per second, due to a limited amount of web workers
 }
 ```
 
-#### Invalid address format
+### Invalid address format
 `https://cro.pythonanywhere.com/rewards?address=test&currency=GBP`
 
 ```
@@ -67,7 +67,7 @@ You are limited to 2 requests per second, due to a limited amount of web workers
 }
 ```
 
-#### Rate-limited
+### Rate-limited
 
 ```
 {
