@@ -29,11 +29,14 @@ You are limited to 2 requests per second, due to a limited amount of web workers
 ```
 {
   "data": {
-    "fiat_rewards": 30,
-    "price_per_cro": 0.149583924766234,
-    "rewards": 200.53214778341157,
-    "total_balance": 16097.327215743411,
-    "total_balance_fiat": 2407.9
+        "bonded_balance": 80.0,
+        "claimed_rewards": 362.23838677000003,
+        "fiat_rewards": 32.87,
+        "price_per_cro": 0.090435,
+        "rewards": 363.4760971743424,
+        "total_balance": 16260.270665134341,
+        "total_balance_fiat": 1470.5,
+        "unclaimed_rewards": 1.237710404342374
     },
   "success": true
 }
