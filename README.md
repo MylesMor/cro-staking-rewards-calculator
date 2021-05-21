@@ -13,7 +13,7 @@ You can access the API used for this website using this format:
 - `ADDRESS` should be placed by the address you'd like to retrieve the total rewards for.
 
 - `CURRENCY` should be the fiat currency you'd like the rewards displayed in. Currency must be one of:
-  * `GBP, USD, EUR, CAD, AUD, NZD, JPY, RUB, CNY, HKD, IDR, ILS, DKK, INR, CHF, MXN, CZK, SGD, THB, HRK, MYR, NOK, BGN, PHP, PLN, ZAR, ISK, BRL, RON, TRY, KRW, HUF, SEK`
+  * `GBP, USD, EUR, CAD, AUD, NZD, JPY, RUB, CNY, HKD, IDR, ILS, DKK, INR, CHF, MXN, CZK, SGD, THB, MYR, NOK, PHP, PLN, ZAR, BRL, TRY, KRW, HUF, SEK`
 
 ### Response
 You will recieve a JSON response, examples of which can be seen in the [Examples](#api-examples) section.
