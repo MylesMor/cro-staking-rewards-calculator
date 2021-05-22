@@ -1,7 +1,6 @@
 import requests
 import json
 from decimal import Decimal
-from forex_python.converter import CurrencyRates
 
 
 def get_genesis():
@@ -113,15 +112,26 @@ def get_total_rewards(address, genesis=None):
     # Determine initial account balance
     initial_balance = determine_vesting_account(account_json, address, genesis)
     send_total = tally_transactions(address, txs_json)
-    current_total = translate_basecro_to_cro(Decimal(account_json['result']['totalBalance'][0]['amount']))
+    if len(account_json['result']['totalBalance']) != 0:
+        current_total = translate_basecro_to_cro(Decimal(account_json['result']['totalBalance'][0]['amount']))
+    else:
+        current_total = Decimal(0.0)
+    if len(account_json['result']['totalRewards']) != 0:
+        unclaimed = translate_basecro_to_cro(Decimal(account_json['result']['totalRewards'][0]['amount']))
+    else:
+        unclaimed = Decimal(0.0)
+    if len(account_json['result']['bondedBalance']) != 0:
+        bonded = translate_basecro_to_cro(Decimal(account_json['result']['bondedBalance'][0]['amount']))
+    else:
+        bonded = Decimal(0.0)
     if "vesting" in account_json['result']['type']:
-        useable = translate_basecro_to_cro(Decimal(account_json['result']['bondedBalance'][0]['amount']))
-        bonded = translate_basecro_to_cro(Decimal(account_json['result']['balance'][0]['amount']))
-        print(useable, bonded, send_total, current_total)
-        total_rewards = abs(current_total - (useable + bonded))
+        bal = Decimal(0.0)
+        if (len(account_json['result']['balance']) != 0):
+            bal = translate_basecro_to_cro(Decimal(account_json['result']['balance'][0]['amount']))
+        total_rewards = abs(current_total - (bonded + bal))
     else:
         total_rewards = abs(current_total - (send_total + initial_balance))
-    return {"balance": current_total, "rewards": total_rewards}
+    return {"balance": current_total, "rewards": total_rewards, "unclaimed": unclaimed, "bonded": bonded}
 
 
 def get_current_price(currency):
@@ -129,23 +139,21 @@ def get_current_price(currency):
 
     Compatible currencies:
     GBP | USD | EUR | CAD | AUD | NZD | JPY | RUB | CNY | HKD |
-    IDR | ILS | DKK | INR | CHF | MXN | CZK | SGD | THB | HRK |
-    MYR | NOK | BGN | PHP | PLN | ZAR | ISK | BRL | RON | TRY |
-    KRW | HUF | SEK
+    IDR | ILS | DKK | INR | CHF | MXN | CZK | SGD | THB | MYR | 
+    NOK | PHP | PLN | ZAR | BRL | TRY | KRW | HUF | SEK
 
     :param currency: The currency to convert the price of CRO to (must be one of the
         above compatible currencies)
 
     :returns: The price of CRO in specified currency or False if incompatible currency
     """
-    c = CurrencyRates()
     price = "https://api.coingecko.com/api/v3/coins/crypto-com-chain"
     price_request = requests.get(price)
     USD_price = Decimal(price_request.json()['market_data']['current_price']['usd'])
     if currency.upper() != "USD":
         try:
-            converted_price = USD_price * Decimal(c.get_rates('USD')[currency])
-        except:
+            converted_price = price_request.json()['market_data']['current_price'][currency.lower()]
+        except Exception as e:
             print("Incompatible currency!")
             return False
         return converted_price
